@@ -1,24 +1,22 @@
-import { useEffect, useState } from "react"
-import getGifs from "../helpers/getGifs"
+import { useEffect, useState } from "react";
+import { getGifs } from "../helpers/getGifs";
 
+const useFetchGifs = (category, gifsPerPage) => {
+  const [state, setState] = useState({
+    data: [],
+    loading: true,
+  });
 
-const useFetchGifs = (category) => {
-    const [state, setState] = useState({
-        data:[],
-        loading:true
-    })
+  useEffect(() => {
+    getGifs(category, gifsPerPage).then((imgs) => {
+      setState({
+        data: imgs,
+        loading: false,
+      });
+    });
+  }, [category, gifsPerPage]);
 
-    useEffect(() => {
-        getGifs(category)
-            .then(imgs => {
-                setState({
-                    data:imgs,
-                    loading:false
-                })
-            })
-    }, [category])
+  return state;
+};
 
-    return state
-}
-
-export {useFetchGifs}
+export { useFetchGifs };
